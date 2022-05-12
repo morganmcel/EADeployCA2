@@ -116,8 +116,6 @@ data "aws_subnet" "public" {
   id         = each.value
   depends_on = [aws_subnet.ead-private]
 }
-
-
 data "aws_subnet_ids" "private" {
   vpc_id = aws_vpc.eadeploy-vpc.id
 
@@ -125,11 +123,9 @@ data "aws_subnet_ids" "private" {
     Tier = "Private"
   }
 }
-
 data "aws_subnet" "private" {
   for_each = data.aws_subnet_ids.private.ids
 
   id         = each.value
   depends_on = [aws_subnet.ead-private]
 }
-

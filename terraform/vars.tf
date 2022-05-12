@@ -83,3 +83,15 @@ variable "ecr_repo_name_fe" {
 variable "ecr_repo_name_be" {
   default = "ea-deploy-be"
 }
+
+variable "codepipeline_s3_bucket" {
+  default = "morganmc-eadesign-bucket"
+}
+
+variable "codebuild_project_name" {
+  default = "eadeploy-project"
+}
+
+variable "github_path" {
+  default = "https://github.com/morganmcel/EADeployCA2.git"
+}
