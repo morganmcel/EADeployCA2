@@ -27,7 +27,7 @@ resource "aws_subnet" "ead-private" {
   cidr_block        = var.subnet_cidrs_private[count.index]
   availability_zone = var.availability_zones[count.index]
   tags = {
-    Name = "ead-public"
+    Name = "ead-private"
     Tier = "Private"
   }
 
