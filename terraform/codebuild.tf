@@ -51,7 +51,10 @@ resource "aws_iam_role_policy" "codebuild_policy" {
         "kms:ReEncrypt*",
         "kms:GenerateDataKey*",
         "kms:DescribeKey",
-        "ssm:GetParameter"
+        "ssm:GetParameter",
+        "ecr:*",
+        "ecs:*"
+
       ],
       "Resource": "*"
     },
