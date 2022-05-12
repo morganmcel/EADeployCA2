@@ -1,5 +1,11 @@
 version: 0.2
 
+env: 
+  variables: 
+    AWS_ACCOUNT_ID: "019359575870"
+    IMAGE_REPO_NAME: "ea-deploy-fe"
+    IMAGE_TAG: CODEBUILD_BUILD_NUMBER
+
 phases:
   pre_build:
     commands:
