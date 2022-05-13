@@ -1,5 +1,5 @@
 resource "aws_iam_role" "codebuild_role" {
-  name = "example"
+  name = "codebuild_role"
 
   assume_role_policy = <<EOF
 {
@@ -98,7 +98,7 @@ resource "aws_codebuild_project" "eadesign_project" {
   service_role  = aws_iam_role.codebuild_role.arn
 
   artifacts {
-    type = "NO_ARTIFACTS"
+    type = "CODEPIPELINE"
   }
 
   cache {
@@ -114,8 +114,8 @@ resource "aws_codebuild_project" "eadesign_project" {
     privileged_mode = true
 
     environment_variable {
-      name  = "SOME_KEY1"
-      value = "SOME_VALUE1"
+      name  = "REPOSITORY_URI"
+      value = aws_ecr_repository.fe-repository.repository_url
     }
 
  #   environment_variable {
@@ -138,17 +138,8 @@ resource "aws_codebuild_project" "eadesign_project" {
   }
 
   source {
-    type            = "GITHUB"
-    location        = "https://github.com/morganmcel/EADeployCA2.git"
-    git_clone_depth = 1
-
-    git_submodules_config {
-      fetch_submodules = true
-    }
+    type            = "CODEPIPELINE"
   }
-
-  source_version = "main"
-
   vpc_config {
     vpc_id  = aws_vpc.eadeploy-vpc.id
     subnets = data.aws_subnet_ids.private.ids
