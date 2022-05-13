@@ -15,6 +15,10 @@ resource "aws_lb_target_group" "fe-tg" {
   target_type = "ip"
 
   depends_on = [aws_lb.app_alb]
+  lifecycle {
+    create_before_destroy = true
+  }
+
 }
 
 resource "aws_lb_listener" "front_end" {

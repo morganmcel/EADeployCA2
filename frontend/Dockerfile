@@ -1,19 +1,24 @@
-FROM ubuntu:18.04
+FROM node:10.15.1
 
-# Install dependencies
-RUN apt-get update && \
- apt-get -y install apache2
+# Create dir for app code inside image => working dir for app
+WORKDIR /usr/src/app
 
-# Install apache and write hello world message
-RUN echo 'Hello World v2 - woohoo if this works!' > /var/www/html/index.html
+# Install app dependencies
+# A wildcard is used to ensure both package.json AND package-lock.json are copied
+COPY package*.json ./
 
-# Configure apache
-RUN echo '. /etc/apache2/envvars' > /root/run_apache.sh && \
- echo 'mkdir -p /var/run/apache2' >> /root/run_apache.sh && \
- echo 'mkdir -p /var/lock/apache2' >> /root/run_apache.sh && \ 
- echo '/usr/sbin/apache2 -D FOREGROUND' >> /root/run_apache.sh && \ 
- chmod 755 /root/run_apache.sh
+# Note NOT copying entire working dir, ONLY copying the package.json files 
+# This allows us to take advantage of cached Docker layers
 
-EXPOSE 80
+RUN npm install
+# If you are building your code for production
+# RUN npm ci --only=production
 
-CMD /root/run_apache.sh
+# Copy app source
+COPY . .
+
+# App binds to port 22137 - the EXPOSE instruction maps it to the docker daemon
+EXPOSE 22137
+
+# Will run node fe-server.js as defined in package.json
+CMD [ "npm", "start" ]

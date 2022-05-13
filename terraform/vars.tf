@@ -69,7 +69,7 @@ variable "aws_alb_fe_tg_name" {
 }
 
 variable "aws_alb_fe_tg_port" {
-  default = 80
+  default = 22137
 }
 
 variable "aws_alb_fe_tg_protocol" {
