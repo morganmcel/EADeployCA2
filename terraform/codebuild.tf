@@ -111,6 +111,7 @@ resource "aws_codebuild_project" "eadesign_project" {
     image                       = "aws/codebuild/standard:1.0"
     type                        = "LINUX_CONTAINER"
     image_pull_credentials_type = "CODEBUILD"
+    privileged_mode = true
 
     environment_variable {
       name  = "SOME_KEY1"
