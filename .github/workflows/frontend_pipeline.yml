@@ -8,7 +8,15 @@ on:
 
 
 jobs:
-  deploy:
+  frontend:
+    name: "Frontend"
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./frontend
+        
     steps:
       - name: Trigger AWS CodePipeline
         uses: zulhfreelancer/aws-codepipeline-action@vX.X.X
