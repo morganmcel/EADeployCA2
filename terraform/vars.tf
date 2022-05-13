@@ -88,8 +88,12 @@ variable "codepipeline_s3_bucket" {
   default = "morganmc-eadeploy-bucket"
 }
 
-variable "codebuild_project_name" {
-  default = "eadeploy-project"
+variable "codebuild_project_name_fe" {
+  default = "eadeploy-project-fe"
+}
+
+variable "codebuild_project_name_be" {
+  default = "eadeploy-project-be"
 }
 
 variable "github_path" {

@@ -1,4 +1,4 @@
-resource "aws_codepipeline" "codepipeline" {
+resource "aws_codepipeline" "codepipeline-fe" {
   name     = "eadesign-pipeline-fe"
   role_arn = aws_iam_role.codepipeline_role.arn
 
@@ -45,7 +45,7 @@ resource "aws_codepipeline" "codepipeline" {
       version          = "1"
 
       configuration = {
-        ProjectName = var.codebuild_project_name
+        ProjectName = var.codebuild_project_name_fe
       }
     }
   }
@@ -69,6 +69,81 @@ resource "aws_codepipeline" "codepipeline" {
     }
   }
 }
+
+### Backend Pipeline
+
+resource "aws_codepipeline" "codepipeline-be" {
+  name     = "eadesign-pipeline-be"
+  role_arn = aws_iam_role.codepipeline_role.arn
+
+  artifact_store {
+    location = aws_s3_bucket.codepipeline_bucket.bucket
+    type     = "S3"
+
+    encryption_key {
+      id   = data.aws_kms_alias.s3kmskey.arn
+      type = "KMS"
+    }
+  }
+
+  stage {
+    name = "Source"
+
+    action {
+      name             = "Source"
+      category         = "Source"
+      owner            = "AWS"
+      provider         = "CodeStarSourceConnection"
+      version          = "1"
+      output_artifacts = ["source_output"]
+
+      configuration = {
+        ConnectionArn    = aws_codestarconnections_connection.eadeploy-gh-conn.arn
+        FullRepositoryId = "morganmcel/EADeployCA2"
+        BranchName       = "main"
+        DetectChanges = false
+      }
+    }
+  }
+
+  stage {
+    name = "Build"
+
+    action {
+      name             = "Build"
+      category         = "Build"
+      owner            = "AWS"
+      provider         = "CodeBuild"
+      input_artifacts  = ["source_output"]
+      output_artifacts = ["build_output"]
+      version          = "1"
+
+      configuration = {
+        ProjectName = var.codebuild_project_name_be
+      }
+    }
+  }
+
+  stage {
+    name = "Deploy"
+
+    action {
+      name            = "Deploy"
+      category        = "Deploy"
+      owner           = "AWS"
+      provider        = "ECS"
+      input_artifacts = ["build_output"]
+      version         = "1"
+
+      configuration = {
+        ClusterName = var.aws_ecs_cluster_name
+        ServiceName = var.aws_ecs_service_name-BE
+        FileName    = "imagedefinitions.json"
+      }
+    }
+  }
+}
+
 
 resource "aws_codestarconnections_connection" "eadeploy-gh-conn" {
   name          = "morganmcel GitHub Connection"

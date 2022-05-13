@@ -91,9 +91,9 @@ resource "aws_iam_role_policy" "codebuild_policy" {
 POLICY
 }
 
-resource "aws_codebuild_project" "eadesign_project" {
-  name          = var.codebuild_project_name
-  description   = "test_codebuild_project"
+resource "aws_codebuild_project" "eadeploy_project_fe" {
+  name          = var.codebuild_project_name_fe
+  description   = "eadeploy_codebuild_project_fe"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
 
@@ -117,12 +117,6 @@ resource "aws_codebuild_project" "eadesign_project" {
       name  = "REPOSITORY_URI"
       value = aws_ecr_repository.fe-repository.repository_url
     }
-
-    #   environment_variable {
-    #     name  = "SOME_KEY2"
-    #     value = "SOME_VALUE2"
-    #     type  = "PARAMETER_STORE"
-    #   }
   }
 
   logs_config {
@@ -151,6 +145,66 @@ resource "aws_codebuild_project" "eadesign_project" {
   }
 
   tags = {
-    Environment = "Test"
+    Environment = "Frontend"
+  }
+}
+
+#### Backend
+
+resource "aws_codebuild_project" "eadesign_project_be" {
+  name          = var.codebuild_project_name_be
+  description   = "test_codebuild_project"
+  build_timeout = "5"
+  service_role  = aws_iam_role.codebuild_role.arn
+
+  artifacts {
+    type = "CODEPIPELINE"
+  }
+
+  cache {
+    type     = "S3"
+    location = var.codepipeline_s3_bucket
+  }
+
+  environment {
+    compute_type                = "BUILD_GENERAL1_SMALL"
+    image                       = "aws/codebuild/standard:1.0"
+    type                        = "LINUX_CONTAINER"
+    image_pull_credentials_type = "CODEBUILD"
+    privileged_mode             = true
+
+    environment_variable {
+      name  = "REPOSITORY_URI"
+      value = aws_ecr_repository.be-repository.repository_url
+    }
+  }
+
+  logs_config {
+    cloudwatch_logs {
+      group_name  = "log-group"
+      stream_name = "log-stream"
+    }
+
+    s3_logs {
+      status   = "ENABLED"
+      location = "${aws_s3_bucket.codepipeline_bucket.arn}/build-log"
+    }
+  }
+
+  source {
+    type = "CODEPIPELINE"
+    buildspec = "./backend/buildspec.yml"
+  }
+  vpc_config {
+    vpc_id  = aws_vpc.eadeploy-vpc.id
+    subnets = data.aws_subnet_ids.private.ids
+
+    security_group_ids = [
+      aws_security_group.allow_http.id
+    ]
+  }
+
+  tags = {
+    Environment = "Backend"
   }
 }
