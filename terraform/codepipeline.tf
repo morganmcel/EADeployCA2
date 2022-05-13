@@ -1,5 +1,5 @@
 resource "aws_codepipeline" "codepipeline" {
-  name     = "eadesign-pipeline"
+  name     = "eadesign-pipeline-fe"
   role_arn = aws_iam_role.codepipeline_role.arn
 
   artifact_store {
