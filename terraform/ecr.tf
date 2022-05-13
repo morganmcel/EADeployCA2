@@ -1,6 +1,10 @@
 resource "aws_ecr_repository" "fe-repository" {
   name                 = var.ecr_repo_name_fe
   image_tag_mutability = "MUTABLE"
+
+  image_scanning_configuration {
+    scan_on_push = var.ecr_scanning
+  }
 }
 
 resource "aws_ecr_repository_policy" "ead-ecr-fe-policy" {
@@ -32,6 +36,9 @@ resource "aws_ecr_repository_policy" "ead-ecr-fe-policy" {
 resource "aws_ecr_repository" "be-repository" {
   name                 = var.ecr_repo_name_be
   image_tag_mutability = "MUTABLE"
+  image_scanning_configuration {
+    scan_on_push = var.ecr_scanning
+  }
 }
 
 resource "aws_ecr_repository_policy" "ead-ecr-be-policy" {

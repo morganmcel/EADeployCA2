@@ -8,7 +8,7 @@ resource "aws_ecs_cluster" "cluster" {
   }
 }
 
-resource "aws_ecs_task_definition" "task" {
+resource "aws_ecs_task_definition" "frontend" {
   family = "service"
   requires_compatibilities = [
     "FARGATE",
@@ -35,7 +35,7 @@ resource "aws_ecs_task_definition" "task" {
 resource "aws_ecs_service" "service" {
   name            = var.aws_ecs_service_name-FE
   cluster         = aws_ecs_cluster.cluster.id
-  task_definition = aws_ecs_task_definition.task.arn
+  task_definition = aws_ecs_task_definition.frontend.arn
   desired_count   = 1
 
   network_configuration {

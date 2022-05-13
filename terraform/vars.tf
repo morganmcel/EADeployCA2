@@ -95,3 +95,7 @@ variable "codebuild_project_name" {
 variable "github_path" {
   default = "https://github.com/morganmcel/EADeployCA2.git"
 }
+
+variable "ecr_scanning" {
+  default = false
+}
