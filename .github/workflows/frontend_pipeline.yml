@@ -20,8 +20,9 @@ jobs:
         working-directory: ./frontend
 
     steps:
+      - uses: actions/checkout@v2
       - name: Trigger AWS CodePipeline
-        uses: zulhfreelancer/aws-codepipeline-action@vX.X.X
+        uses: zulhfreelancer/aws-codepipeline-action@v1.0.7
         with:
           aws-region: "eu-west-1"
           aws-access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
