@@ -40,7 +40,7 @@ resource "aws_codepipeline" "codepipeline" {
       owner            = "AWS"
       provider         = "CodeBuild"
       input_artifacts  = ["source_output"]
-      output_artifacts = ["task"]
+      output_artifacts = ["build_output"]
       version          = "1"
 
       configuration = {
@@ -57,12 +57,13 @@ resource "aws_codepipeline" "codepipeline" {
       category        = "Deploy"
       owner           = "AWS"
       provider        = "ECS"
-      input_artifacts = ["task"]
+      input_artifacts = ["build_output"]
       version         = "1"
 
       configuration = {
         ClusterName = var.aws_ecs_cluster_name
         ServiceName = var.aws_ecs_service_name-FE
+        FileName    = "imagedefinitions.json"
       }
     }
   }

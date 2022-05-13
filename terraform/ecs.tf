@@ -19,8 +19,11 @@ resource "aws_ecs_task_definition" "frontend" {
   memory             = 512
   container_definitions = jsonencode([
     {
-      name      = var.ecs_container_name-fe
-      image     = var.ecs_image_id-fe
+      #name      = var.ecs_container_name-fe
+      #image     = var.ecs_image_id-fe
+      name  = var.ecs_container_name-fe
+      image = "019359575870.dkr.ecr.eu-west-1.amazonaws.com/ea-deploy-fe:350c032"
+
       essential = true
       portMappings = [
         {
@@ -32,7 +35,7 @@ resource "aws_ecs_task_definition" "frontend" {
   ])
 }
 
-resource "aws_ecs_service" "service" {
+resource "aws_ecs_service" "eadeploy-ecs-service" {
   name            = var.aws_ecs_service_name-FE
   cluster         = aws_ecs_cluster.cluster.id
   task_definition = aws_ecs_task_definition.frontend.arn

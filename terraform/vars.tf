@@ -61,7 +61,7 @@ variable "aws_ecs_service_name-BE" {
 }
 
 variable "aws_alb_name" {
-  default = "eadesign-lb"
+  default = "eadeploy-lb"
 }
 
 variable "aws_alb_fe_tg_name" {
@@ -85,7 +85,7 @@ variable "ecr_repo_name_be" {
 }
 
 variable "codepipeline_s3_bucket" {
-  default = "morganmc-eadesign-bucket"
+  default = "morganmc-eadeploy-bucket"
 }
 
 variable "codebuild_project_name" {
