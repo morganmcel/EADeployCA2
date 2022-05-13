@@ -132,7 +132,7 @@ resource "aws_codebuild_project" "eadeploy_project_fe" {
   }
 
   source {
-    type = "CODEPIPELINE"
+    type      = "CODEPIPELINE"
     buildspec = "./frontend/buildspec.yml"
   }
   vpc_config {
@@ -192,7 +192,7 @@ resource "aws_codebuild_project" "eadesign_project_be" {
   }
 
   source {
-    type = "CODEPIPELINE"
+    type      = "CODEPIPELINE"
     buildspec = "./backend/buildspec.yml"
   }
   vpc_config {

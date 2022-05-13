@@ -27,7 +27,7 @@ resource "aws_codepipeline" "codepipeline-fe" {
         ConnectionArn    = aws_codestarconnections_connection.eadeploy-gh-conn.arn
         FullRepositoryId = "morganmcel/EADeployCA2"
         BranchName       = "main"
-        DetectChanges = false
+        DetectChanges    = false
       }
     }
   }
@@ -101,7 +101,7 @@ resource "aws_codepipeline" "codepipeline-be" {
         ConnectionArn    = aws_codestarconnections_connection.eadeploy-gh-conn.arn
         FullRepositoryId = "morganmcel/EADeployCA2"
         BranchName       = "main"
-        DetectChanges = false
+        DetectChanges    = false
       }
     }
   }
