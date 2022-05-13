@@ -139,6 +139,7 @@ resource "aws_codebuild_project" "eadesign_project" {
 
   source {
     type = "CODEPIPELINE"
+    buildspec = "./frontend/buildspec.yml"
   }
   vpc_config {
     vpc_id  = aws_vpc.eadeploy-vpc.id
