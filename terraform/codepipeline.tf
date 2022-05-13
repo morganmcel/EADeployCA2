@@ -135,6 +135,11 @@ resource "aws_iam_role_policy" "codepipeline_policy" {
       "Action": [
         "codebuild:BatchGetBuilds",
         "codebuild:StartBuild"
+        "kms:Encrypt",
+        "kms:Decrypt",
+        "kms:ReEncrypt*",
+        "kms:GenerateDataKey*",
+        "kms:DescribeKey",
       ],
       "Resource": "*"
     }
