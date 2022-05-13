@@ -29,11 +29,11 @@ variable "aws_ecs_cluster_name" {
 }
 
 variable "ecs_container_name-fe" {
-  default = "eadeploy-be"
+  default = "ea-deploy-fe"
 }
 
 variable "ecs_container_name-be" {
-  default = "eadeploy-be"
+  default = "ea-deploy-be"
 }
 
 variable "ecs_image_id-fe" {
