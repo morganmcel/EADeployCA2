@@ -39,8 +39,8 @@ resource "aws_codepipeline" "codepipeline" {
       category         = "Build"
       owner            = "AWS"
       provider         = "CodeBuild"
-      input_artifacts  = ["source_output"]
-      output_artifacts = ["build_output"]
+      input_artifacts  = ["code"]
+      output_artifacts = ["task"]
       version          = "1"
 
       configuration = {
@@ -57,7 +57,7 @@ resource "aws_codepipeline" "codepipeline" {
       category        = "Deploy"
       owner           = "AWS"
       provider        = "ECS"
-      input_artifacts = ["build_output"]
+      input_artifacts = ["task"]
       version         = "1"
 
       configuration = {
