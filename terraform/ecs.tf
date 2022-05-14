@@ -19,8 +19,6 @@ resource "aws_ecs_task_definition" "frontend" {
   memory             = 512
   container_definitions = jsonencode([
     {
-      #name      = var.ecs_container_name-fe
-      #image     = var.ecs_image_id-fe
       name  = var.ecs_container_name-fe
       image = "019359575870.dkr.ecr.eu-west-1.amazonaws.com/ea-deploy-fe:350c032"
 
@@ -59,6 +57,9 @@ resource "aws_ecs_service" "eadeploy-ecs-service" {
     base              = 0
     capacity_provider = "FARGATE"
     weight            = 100
+  }
+  service_registries {
+    registry_arn = aws_service_discovery_service.eadeploy-service-frontend.arn
   }
   depends_on = [aws_lb_target_group.fe-tg]
 }
@@ -115,5 +116,52 @@ resource "aws_ecs_service" "eadeploy-ecs-service-be" {
     capacity_provider = "FARGATE"
     weight            = 100
   }
+  service_registries {
+    registry_arn = aws_service_discovery_service.eadeploy-service-backend.arn
+  }
   depends_on = [aws_lb_target_group.be-tg]
+}
+
+resource "aws_service_discovery_private_dns_namespace" "eadeploy-internal-namespace" {
+  name        = "eadeploy-internal-namespace"
+  description = "eadeploy internal DNS namespace"
+  vpc         = aws_vpc.eadeploy-vpc.id
+}
+
+resource "aws_service_discovery_service" "eadeploy-service-frontend" {
+  name = "ead-service-frontend"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.eadeploy-internal-namespace.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
+}
+
+resource "aws_service_discovery_service" "eadeploy-service-backend" {
+  name = "ead-service-backend"
+
+  dns_config {
+    namespace_id = aws_service_discovery_private_dns_namespace.eadeploy-internal-namespace.id
+
+    dns_records {
+      ttl  = 10
+      type = "A"
+    }
+
+    routing_policy = "MULTIVALUE"
+  }
+
+  health_check_custom_config {
+    failure_threshold = 1
+  }
 }
