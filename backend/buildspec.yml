@@ -27,8 +27,9 @@ phases:
   post_build:
     commands:
       - echo Build completed on `date`
-      - mvn -f ./backend package 
-      - mv ./backend/target/BPRestWS-1.0-SNAPSHOT.war ./target/BPRestWS-1.0-SNAPSHOT.war
+      - mvn -f ./backend package
+      - tree .
+#      - mv ./backend/target/BPRestWS-1.0-SNAPSHOT.war ./target/BPRestWS-1.0-SNAPSHOT.war
       - echo Build completed on `date`
       - echo Pushing the Docker image...
       - docker push $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG
