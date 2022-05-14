@@ -18,7 +18,6 @@ resource "aws_lb_target_group" "fe-tg" {
   lifecycle {
     create_before_destroy = true
   }
-
 }
 
 resource "aws_lb_listener" "front_end" {
@@ -46,6 +45,36 @@ resource "aws_lb_listener" "front_end_https" {
     target_group_arn = aws_lb_target_group.fe-tg.arn
   }
 }
+
+## Backend
+
+resource "aws_lb_target_group" "be-tg" {
+  name        = var.aws_alb_be_tg_name
+  port        = var.aws_alb_be_tg_port
+  protocol    = var.aws_alb_be_tg_protocol
+  vpc_id      = aws_vpc.eadeploy-vpc.id
+  target_type = "ip"
+
+  depends_on = [aws_lb.app_alb]
+  lifecycle {
+    create_before_destroy = true
+  }
+}
+
+resource "aws_lb_listener" "back_end_http" {
+  load_balancer_arn = aws_lb.app_alb.arn
+  port              = "8080"
+  protocol          = "HTTP"
+  #  certificate_arn   = module.acm.acm_certificate_arn
+
+  default_action {
+    type             = "forward"
+    target_group_arn = aws_lb_target_group.be-tg.arn
+  }
+}
+
+
+
 
 data "aws_elb_hosted_zone_id" "main" {}
 
@@ -111,6 +140,14 @@ resource "aws_security_group" "container_access" {
     description = "Backend Access"
     from_port   = 22137
     to_port     = 22137
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
+  ingress {
+    description = "HTTP from Anywhere"
+    from_port   = 2000
+    to_port     = 2000
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]
   }

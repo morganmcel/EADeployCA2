@@ -76,6 +76,18 @@ variable "aws_alb_fe_tg_protocol" {
   default = "HTTP"
 }
 
+variable "aws_alb_be_tg_name" {
+  default = "be-tg"
+}
+
+variable "aws_alb_be_tg_port" {
+  default = 2000
+}
+
+variable "aws_alb_be_tg_protocol" {
+  default = "HTTP"
+}
+
 variable "ecr_repo_name_fe" {
   default = "ea-deploy-fe"
 }
