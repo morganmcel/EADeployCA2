@@ -1,0 +1,30 @@
+name: "Trigger Backend Pipeline"
+
+on:
+  push:
+    branches: [ main ]
+    paths: 
+      - 'backend/**' 
+
+  workflow_dispatch:
+
+
+jobs:
+  backend:
+    name: "Backend"
+    runs-on: ubuntu-latest
+    environment: production
+    defaults:
+      run:
+        shell: bash
+        working-directory: ./backend
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Trigger AWS CodePipeline
+        uses: zulhfreelancer/aws-codepipeline-action@v1.0.7
+        with:
+          aws-region: "eu-west-1"
+          aws-access-key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          pipeline-name: "eadesign-pipeline-be"

@@ -45,7 +45,7 @@ variable "ecs_image_id-be" {
 }
 
 variable "ecs_fe_port" {
-  default = 80
+  default = 22137
 }
 
 variable "ecs_be_port" {

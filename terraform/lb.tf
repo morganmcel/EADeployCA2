@@ -107,6 +107,14 @@ resource "aws_security_group" "container_access" {
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]
   }
+  ingress {
+    description = "Backend Access"
+    from_port   = 22137
+    to_port     = 22137
+    protocol    = "tcp"
+    cidr_blocks = ["10.0.0.0/16"]
+  }
+
   egress {
     from_port        = 0
     to_port          = 0
