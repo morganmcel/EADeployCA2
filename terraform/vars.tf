@@ -116,3 +116,15 @@ variable "github_path" {
 variable "ecr_scanning" {
   default = false
 }
+
+variable "db_username" {
+  description = "Username for DocumentDB"
+  type = string
+  sensitive = true
+}
+
+variable "db_password" {
+  description = "Password for DocumentDB"
+  type = string
+  sensitive = true
+}

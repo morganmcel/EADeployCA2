@@ -1,6 +1,6 @@
 variable "container" {
   type        = any
-  default     = {}
+  default     = "particule/helloworld"
   description = "Container configuration to deploy"
 }
 
