@@ -116,3 +116,7 @@ variable "github_path" {
 variable "ecr_scanning" {
   default = false
 }
+
+variable "doc_db_instance_class" {
+  default = "db.t3.medium"
+}

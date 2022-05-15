@@ -3,6 +3,13 @@ FROM node:10.15.1
 # Create dir for app code inside image => working dir for app
 WORKDIR /usr/src/app
 
+#!/bin/bash
+set -e
+RUN curl "https://s3-us-gov-west-1.amazonaws.com/rds-downloads/rds-combined-ca-us-gov-bundle.pem" --output /etc/pki/ca-trust/source/anchors/rds-combined-ca-us-gov-bundle.pem \
+&& curl "https://s3.amazonaws.com/rds-downloads/rds-combined-ca-bundle.pem" --output /etc/pki/ca-trust/source/anchors/rds-combined-ca-bundle.pem \
+&& update-ca-trust \
+&& update-ca-trust force-enable
+
 # Install app dependencies
 # A wildcard is used to ensure both package.json AND package-lock.json are copied
 COPY package*.json ./
