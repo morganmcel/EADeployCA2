@@ -96,7 +96,7 @@ resource "aws_security_group" "allow_http" {
   vpc_id      = aws_vpc.eadeploy-vpc.id
 
   ingress {
-    description = "HTTP from Anywhere"
+    description = "Web access from anywhere"
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
