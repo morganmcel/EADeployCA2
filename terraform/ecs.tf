@@ -61,7 +61,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service" {
   service_registries {
     registry_arn = aws_service_discovery_service.eadeploy-service-frontend.arn
   }
-  
+
   depends_on = [aws_lb_target_group.fe-tg]
 }
 
