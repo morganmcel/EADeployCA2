@@ -51,7 +51,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service" {
     container_port   = var.ecs_fe_port
   }
   deployment_controller {
-    type = "CODE_DEPLOY"
+    type = "ECS"
   }
   capacity_provider_strategy {
     base              = 0
@@ -111,7 +111,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service-be" {
   }
   health_check_grace_period_seconds = 120
   deployment_controller {
-    type = "CODE_DEPLOY"
+    type = "ECS"
   }
   capacity_provider_strategy {
     base              = 0
