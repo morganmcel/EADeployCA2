@@ -119,12 +119,12 @@ variable "ecr_scanning" {
 
 variable "db_username" {
   description = "Username for DocumentDB"
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
 }
 
 variable "db_password" {
   description = "Password for DocumentDB"
-  type = string
-  sensitive = true
+  type        = string
+  sensitive   = true
 }
