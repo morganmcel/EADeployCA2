@@ -6,7 +6,7 @@ env:
     IMAGE_REPO_NAME: "ea-deploy-fe"
     #IMAGE_TAG: $IMAGE_TAG
   
-  secrets-manager: 
+  parameter-store: 
     DB_CONFIG: "/eadesign/db_config"
 
 
