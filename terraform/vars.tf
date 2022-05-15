@@ -117,13 +117,13 @@ variable "ecr_scanning" {
   default = false
 }
 
-variable "db_username" {
+variable "DB_USERNAME" {
   description = "Username for DocumentDB"
   type        = string
   sensitive   = true
 }
 
-variable "db_password" {
+variable "DB_PASSWORD" {
   description = "Password for DocumentDB"
   type        = string
   sensitive   = true
