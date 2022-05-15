@@ -5,6 +5,9 @@ env:
     AWS_ACCOUNT_ID: "019359575870"
     IMAGE_REPO_NAME: "ea-deploy-be"
 
+  parameter-store: 
+    DB_CONFIG: "/eadesign/backend_db_config"
+
 phases:
   install:
     runtime-versions:
@@ -20,6 +23,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo $DB_CONFIG > ./backend/src/main/resources/config.properties
       - mvn -f ./backend test 
       - mvn -f ./backend package
       - echo Building the Docker image...      

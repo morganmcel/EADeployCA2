@@ -114,7 +114,7 @@ variable "github_path" {
 }
 
 variable "ecr_scanning" {
-  default = false
+  default = true
 }
 
 variable "doc_db_instance_class" {
