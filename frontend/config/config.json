@@ -5,7 +5,7 @@
         "database": "mongodb+srv://dbUser:dbUserPassword@bpcalculator-tftko.azure.mongodb.net/test?retryWrites=true",
 		"database_name": "mydb",
 		"database_collection": "customers",
-		"webservice": "http://ead-service-backend.eadeploy-internal-namespace:2000/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/", 
+		"webservice": "http://ead-service-backend.eadeploy-internal-namespace:8080/BPRestWS-1.0-SNAPSHOT/retrieve/bp/getJson/", 
 		"exposedPort": "22137"
 	}
 }

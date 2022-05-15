@@ -108,6 +108,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service-be" {
     container_name   = var.ecs_container_name-be
     container_port   = var.ecs_be_port
   }
+  health_check_grace_period_seconds = 120
   deployment_controller {
     type = "ECS"
   }

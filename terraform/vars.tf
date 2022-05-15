@@ -48,9 +48,7 @@ variable "ecs_fe_port" {
   default = 22137
 }
 
-variable "ecs_be_port" {
-  default = 2000
-}
+
 
 variable "aws_ecs_service_name-FE" {
   default = "eadeploy-fe"
@@ -81,9 +79,12 @@ variable "aws_alb_be_tg_name" {
 }
 
 variable "aws_alb_be_tg_port" {
-  default = 2000
+  default = 8080
 }
 
+variable "ecs_be_port" {
+  default = 8080
+}
 variable "aws_alb_be_tg_protocol" {
   default = "HTTP"
 }

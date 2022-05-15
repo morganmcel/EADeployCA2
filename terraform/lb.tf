@@ -54,6 +54,9 @@ resource "aws_lb_target_group" "be-tg" {
   protocol    = var.aws_alb_be_tg_protocol
   vpc_id      = aws_vpc.eadeploy-vpc.id
   target_type = "ip"
+  health_check {
+    path = "/BPRestWS-1.0-SNAPSHOT/retrieve/bp"
+  }
 
   depends_on = [aws_lb.app_alb]
   lifecycle {
@@ -72,9 +75,6 @@ resource "aws_lb_listener" "back_end_http" {
     target_group_arn = aws_lb_target_group.be-tg.arn
   }
 }
-
-
-
 
 data "aws_elb_hosted_zone_id" "main" {}
 
@@ -111,6 +111,13 @@ resource "aws_security_group" "allow_http" {
     cidr_blocks = ["0.0.0.0/0"]
   }
 
+  ingress {
+    description = "Backend-External access"
+    from_port   = 8080
+    to_port     = 8080
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
   egress {
     from_port        = 0
     to_port          = 0
@@ -146,8 +153,8 @@ resource "aws_security_group" "container_access" {
 
   ingress {
     description = "HTTP from Anywhere"
-    from_port   = 2000
-    to_port     = 2000
+    from_port   = 8080
+    to_port     = 8080
     protocol    = "tcp"
     cidr_blocks = ["10.0.0.0/16"]
   }
