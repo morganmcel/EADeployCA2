@@ -5,6 +5,10 @@ env:
     AWS_ACCOUNT_ID: "019359575870"
     IMAGE_REPO_NAME: "ea-deploy-fe"
     #IMAGE_TAG: $IMAGE_TAG
+  
+  secrets-manager: 
+    DB_CONFIG: "/eadesign/db_config"
+
 
 phases:
   pre_build:
@@ -16,6 +20,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
+      - echo $DB_CONFIG > ./frontend/config/config.json
       - echo Building the Docker image...      
       - docker build -f ./frontend/Dockerfile ./frontend -t $IMAGE_REPO_NAME:latest 
       - docker tag $IMAGE_REPO_NAME:latest $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com/$IMAGE_REPO_NAME:$IMAGE_TAG      
