@@ -51,7 +51,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service" {
     container_port   = var.ecs_fe_port
   }
   deployment_controller {
-    type = "ECS"
+    type = "CODE_DEPLOY"
   }
   capacity_provider_strategy {
     base              = 0
@@ -61,6 +61,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service" {
   service_registries {
     registry_arn = aws_service_discovery_service.eadeploy-service-frontend.arn
   }
+  
   depends_on = [aws_lb_target_group.fe-tg]
 }
 
@@ -110,7 +111,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service-be" {
   }
   health_check_grace_period_seconds = 120
   deployment_controller {
-    type = "ECS"
+    type = "CODE_DEPLOY"
   }
   capacity_provider_strategy {
     base              = 0
@@ -120,9 +121,7 @@ resource "aws_ecs_service" "eadeploy-ecs-service-be" {
   service_registries {
     registry_arn = aws_service_discovery_service.eadeploy-service-backend.arn
   }
-  depends_on = [aws_lb_target_group.be-tg]
 }
-
 resource "aws_service_discovery_private_dns_namespace" "eadeploy-internal-namespace" {
   name        = "eadeploy-internal-namespace"
   description = "eadeploy internal DNS namespace"
