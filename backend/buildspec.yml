@@ -7,11 +7,6 @@ env:
 
   parameter-store: 
     DB_CONFIG: "/eadesign/backend_db_config"
-    LOGIN: /eadesign/sonar_token
-    HOST: /eadesign/sonar_host
-    Organization: /eadesign/sonar_organisation
-    Project: /eadesign/sonar_project
-
 
 phases:
   install:
@@ -24,21 +19,12 @@ phases:
       - aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.$AWS_DEFAULT_REGION.amazonaws.com
       - COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-7)
       - IMAGE_TAG=${COMMIT_HASH:=latest}
-      - wget https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-3.3.0.1492-linux.zip
-      - unzip ./sonar-scanner-cli-3.3.0.1492-linux.zip
-      - export PATH=$PATH:/sonar-scanner-3.3.0.1492-linux/bin/
 
   build:
     commands:
       - echo Build started on `date`
       - echo $DB_CONFIG > ./backend/src/main/resources/config.properties
       - mvn -f ./backend test 
-      - cd backend && mvn sonar:sonar -Dsonar.login=$LOGIN -Dsonar.host.url=$HOST -Dsonar.projectKey=$Project -Dsonar.organization=$Organization
-      - sleep 5
-      - curl https://sonarcloud.io/api/qualitygates/project_status?projectKey=$Project >result.json
-      - cat result.json
-      - if [ $(jq -r '.projectStatus.status' result.json) = ERROR ] ; then $CODEBUILD_BUILD_SUCCEEDING -eq 0 ;fi
-
       - mvn -f ./backend package
       - echo Building the Docker image...      
       - docker build -f ./backend/Dockerfile ./backend -t $IMAGE_REPO_NAME:latest 
