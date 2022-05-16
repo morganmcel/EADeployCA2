@@ -125,6 +125,22 @@ resource "aws_codepipeline" "codepipeline-be" {
   }
 
   stage {
+    name = "Review"
+
+    action {
+      name     = "Review"
+      category = "Approval"
+      owner    = "AWS"
+      provider = "Manual"
+      version  = "1"
+
+      configuration = {
+        CustomData = "Please Approve"
+      }
+    }
+  }
+
+  stage {
     name = "Deploy"
 
     action {
