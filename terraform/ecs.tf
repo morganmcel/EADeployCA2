@@ -7,17 +7,17 @@ resource "aws_ecs_cluster" "cluster" {
     weight            = "100"
   }
   setting {
-    name = "containerInsights"
+    name  = "containerInsights"
     value = "enabled"
   }
   configuration {
     execute_command_configuration {
       kms_key_id = aws_kms_key.eadeploy_key.arn
-      logging = "OVERRIDE"
+      logging    = "OVERRIDE"
 
       log_configuration {
         cloud_watch_encryption_enabled = true
-        cloud_watch_log_group_name = aws_cloudwatch_log_group.ecs_logging.name
+        cloud_watch_log_group_name     = aws_cloudwatch_log_group.ecs_logging.name
       }
     }
   }
@@ -38,8 +38,8 @@ resource "aws_ecs_task_definition" "frontend" {
   ]
   execution_role_arn = aws_iam_role.fargate.arn
   network_mode       = "awsvpc"
-  cpu                = 256
-  memory             = 512
+  cpu                = 1024
+  memory             = 2048
   container_definitions = jsonencode([
     {
       name  = var.ecs_container_name-fe
@@ -52,6 +52,14 @@ resource "aws_ecs_task_definition" "frontend" {
           hostPort      = var.ecs_fe_port
         }
       ]
+    },
+    {
+      name  = aws-otel-collector
+      image = "public.ecr.aws/aws-observability/aws-otel-collector:v0.17.0"
+
+      essential = true
+      command   = ["--config=/etc/ecs/ecs-xray.yaml"]
+
     }
   ])
 }

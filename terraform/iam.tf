@@ -82,7 +82,12 @@ resource "aws_iam_role_policy" "fargate" {
         "ecr:GetDownloadUrlForLayer",
         "ecr:GetLifecyclePolicy",
         "kms:Decrypt",
-        "kms:DescribeKey"
+        "kms:DescribeKey",
+        "xray:PutTraceSegments",
+        "xray:PutTelemetryRecords",
+        "xray:GetSamplingRules",
+        "xray:GetSamplingTargets",
+        "xray:GetSamplingStatisticSummaries"
       ],
       "Effect": "Allow",
       "Resource": "*"
