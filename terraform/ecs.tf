@@ -6,6 +6,29 @@ resource "aws_ecs_cluster" "cluster" {
     capacity_provider = "FARGATE"
     weight            = "100"
   }
+  setting {
+    name = "containerInsights"
+    value = "enabled"
+  }
+  configuration {
+    execute_command_configuration {
+      kms_key_id = aws_kms_key.eadeploy_key.arn
+      logging = "OVERRIDE"
+
+      log_configuration {
+        cloud_watch_encryption_enabled = true
+        cloud_watch_log_group_name = aws_cloudwatch_log_group.ecs_logging.name
+      }
+    }
+  }
+}
+
+resource "aws_cloudwatch_log_group" "ecs_logging" {
+  name = "ecs_logging"
+}
+resource "aws_kms_key" "eadeploy_key" {
+  description             = "eadeploy_key"
+  deletion_window_in_days = 7
 }
 
 resource "aws_ecs_task_definition" "frontend" {
