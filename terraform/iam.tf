@@ -80,7 +80,9 @@ resource "aws_iam_role_policy" "fargate" {
         "ecr:DescribeImages",
         "ecr:GetAuthorizationToken",
         "ecr:GetDownloadUrlForLayer",
-        "ecr:GetLifecyclePolicy"
+        "ecr:GetLifecyclePolicy",
+        "kms:Decrypt",
+        "kms:DescribeKey"
       ],
       "Effect": "Allow",
       "Resource": "*"
