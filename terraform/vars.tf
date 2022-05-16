@@ -128,3 +128,7 @@ variable "kms_key" {
 variable "kms_key_arn" {
   default = "arn:aws:kms:eu-west-1:019359575870:key/7aa1b425-f46c-49cf-a49a-8e0b32da0e62"
 }
+
+variable "account_id" {
+  default = "019359575870"
+}
