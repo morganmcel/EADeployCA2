@@ -1,6 +1,6 @@
 resource "aws_ecr_repository" "fe-repository" {
   name                 = var.ecr_repo_name_fe
-  image_tag_mutability = "MUTABLE"
+  image_tag_mutability = "IMMUTABLE"
 
   image_scanning_configuration {
     scan_on_push = var.ecr_scanning

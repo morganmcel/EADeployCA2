@@ -96,6 +96,7 @@ resource "aws_codebuild_project" "eadeploy_project_fe" {
   description   = "eadeploy_codebuild_project_fe"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
+  encryption_key = var.kms_key
 
   artifacts {
     type = "CODEPIPELINE"
@@ -156,6 +157,7 @@ resource "aws_codebuild_project" "eadesign_project_be" {
   description   = "test_codebuild_project"
   build_timeout = "5"
   service_role  = aws_iam_role.codebuild_role.arn
+  encryption_key = var.kms_key
 
   artifacts {
     type = "CODEPIPELINE"

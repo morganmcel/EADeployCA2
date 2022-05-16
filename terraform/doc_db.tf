@@ -8,6 +8,9 @@ resource "aws_docdb_cluster" "docdb" {
   skip_final_snapshot     = true
   vpc_security_group_ids  = [aws_security_group.docdb_access.id]
   db_subnet_group_name    = aws_db_subnet_group.docdb_subnet_group.id
+  storage_encrypted = true
+  kms_key_id = var.kms_key_arn
+  enabled_cloudwatch_logs_exports = ["audit"]
 }
 
 resource "aws_docdb_cluster_instance" "ea-deploy-docdb" {
@@ -16,7 +19,6 @@ resource "aws_docdb_cluster_instance" "ea-deploy-docdb" {
   apply_immediately          = true
   instance_class             = var.doc_db_instance_class
   auto_minor_version_upgrade = true
-
 }
 
 data "aws_ssm_parameter" "docdb-user" {

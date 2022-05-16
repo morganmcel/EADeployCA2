@@ -120,3 +120,11 @@ variable "ecr_scanning" {
 variable "doc_db_instance_class" {
   default = "db.t3.medium"
 }
+
+variable "kms_key" {
+  default = "alias/eadeployKey"
+}
+
+variable "kms_key_arn" {
+  default = "arn:aws:kms:eu-west-1:019359575870:key/7aa1b425-f46c-49cf-a49a-8e0b32da0e62"
+}
