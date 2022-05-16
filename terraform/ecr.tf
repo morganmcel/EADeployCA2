@@ -7,7 +7,7 @@ resource "aws_ecr_repository" "fe-repository" {
   }
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key = var.kms_key
+    kms_key         = var.kms_key
   }
 }
 
@@ -45,7 +45,7 @@ resource "aws_ecr_repository" "be-repository" {
   }
   encryption_configuration {
     encryption_type = "KMS"
-    kms_key = var.kms_key
+    kms_key         = var.kms_key
   }
 }
 
