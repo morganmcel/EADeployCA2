@@ -52,14 +52,6 @@ resource "aws_ecs_task_definition" "frontend" {
           hostPort      = var.ecs_fe_port
         }
       ]
-    },
-    {
-      name  = aws-otel-collector
-      image = "public.ecr.aws/aws-observability/aws-otel-collector:v0.17.0"
-
-      essential = true
-      command   = ["--config=/etc/ecs/ecs-xray.yaml"]
-
     }
   ])
 }
