@@ -5,6 +5,10 @@ resource "aws_ecr_repository" "fe-repository" {
   image_scanning_configuration {
     scan_on_push = var.ecr_scanning
   }
+  encryption_configuration {
+    encryption_type = "KMS"
+    kms_key = var.kms_key
+  }
 }
 
 resource "aws_ecr_repository_policy" "ead-ecr-fe-policy" {
@@ -35,9 +39,13 @@ resource "aws_ecr_repository_policy" "ead-ecr-fe-policy" {
 
 resource "aws_ecr_repository" "be-repository" {
   name                 = var.ecr_repo_name_be
-  image_tag_mutability = "MUTABLE"
+  image_tag_mutability = "IMMUTABLE"
   image_scanning_configuration {
     scan_on_push = var.ecr_scanning
+  }
+  encryption_configuration {
+    encryption_type = "KMS"
+    kms_key = var.kms_key
   }
 }
 
